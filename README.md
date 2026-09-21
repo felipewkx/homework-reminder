@@ -2,6 +2,10 @@
 
 **Homework Reminder** is a simple and intuitive web application designed to help students organize their school and academic tasks. It allows you to log your homework, set due dates, and track your progress so you never miss a deadline.
 
+## Demo
+
+Visit the website: https://felipewkx.github.io/homework-reminder
+
 ## 🚀 Features
 
 *   **Dashboard Counter:** Quickly view the number of pending and completed tasks.
