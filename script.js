@@ -602,3 +602,14 @@ homeworkDueDate.addEventListener("change", () => {
 setMinimumDate();
 renderTasks();
 startDeadlineRefresh();
+
+const loginScreen = document.getElementById("loginScreen");
+const loginUser = document.getElementById("loginUser");
+const loginPassword = document.getElementById("loginPassword");
+const loginButton = document.getElementById("loginButton");
+
+loginButton.addEventListener("click", () => {
+  if (loginUser.value.trim() && loginPassword.value.trim()) {
+    loginScreen.style.display = "none";
+  }
+});
