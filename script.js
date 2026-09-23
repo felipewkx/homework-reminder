@@ -613,3 +613,23 @@ loginButton.addEventListener("click", () => {
     loginScreen.style.display = "none";
   }
 });
+
+// Cole no final do seu arquivo script.js
+document.addEventListener("DOMContentLoaded", function () {
+  const visitorButton = document.getElementById("visitorButton");
+
+  if (visitorButton) {
+    visitorButton.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      // Esconde a tela de login
+      document.getElementById("loginScreen").style.display = "none";
+
+      // Mostra a tela do projeto (substitua 'projectScreen' pelo ID real do seu painel)
+      document.getElementById("projectScreen").style.display = "block";
+
+      // Salva a sessão do visitante
+      localStorage.setItem("userRole", "visitor");
+    });
+  }
+});
