@@ -24,21 +24,14 @@ let tasks = loadTasks();
 let currentFilter = "all";
 let toastTimeout = null;
 
-/**
- * Returns today's date as a local calendar date at midnight.
- * Using local calendar components avoids UTC/time-zone conversion issues.
- */
+// Gets today's date without timezone problems.
 function getToday() {
   const now = new Date();
 
   return new Date(now.getFullYear(), now.getMonth(), now.getDate());
 }
 
-/**
- * Converts a YYYY-MM-DD input value into a local Date object.
- * The Date constructor must not receive the string directly because
- * that can interpret it as UTC and cause date shifts in some time zones.
- */
+// Turns an input date into a local date.
 function parseLocalDate(dateString) {
   const parts = dateString.split("-").map(Number);
 
@@ -61,9 +54,7 @@ function parseLocalDate(dateString) {
   return date;
 }
 
-/**
- * Formats a Date object using the user's local locale.
- */
+// Formats a date for the user's locale.
 function formatDate(dateString) {
   const date = parseLocalDate(dateString);
 
@@ -78,10 +69,7 @@ function formatDate(dateString) {
   });
 }
 
-/**
- * Returns the number of complete calendar days between today
- * and the supplied due date.
- */
+// Finds how many days are left.
 function getDaysRemaining(dateString) {
   const dueDate = parseLocalDate(dateString);
   const today = getToday();
@@ -95,17 +83,7 @@ function getDaysRemaining(dateString) {
   return Math.round((dueDate.getTime() - today.getTime()) / millisecondsPerDay);
 }
 
-/**
- * Determines the visual status of a task.
- *
- * Green: more than 5 days remaining
- * Yellow: 2 to 5 days remaining
- * Red: today or tomorrow
- * Blue: completed, regardless of deadline
- *
- * The form prevents new past dates, but the function also handles
- * old tasks safely if the date has passed after they were created.
- */
+// Chooses the task color and status text.
 function getTaskStatus(task) {
   if (task.completed) {
     return {
@@ -145,9 +123,7 @@ function getTaskStatus(task) {
   };
 }
 
-/**
- * Loads and validates saved tasks from localStorage.
- */
+// Loads valid tasks from localStorage.
 function loadTasks() {
   try {
     const storedTasks = localStorage.getItem(STORAGE_KEY);
@@ -186,9 +162,7 @@ function loadTasks() {
   }
 }
 
-/**
- * Saves the current task state.
- */
+// Saves the current tasks.
 function saveTasks() {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
@@ -198,9 +172,7 @@ function saveTasks() {
   }
 }
 
-/**
- * Creates a unique task ID.
- */
+// Creates a unique task ID.
 function createTaskId() {
   if (
     typeof crypto !== "undefined" &&
@@ -212,9 +184,7 @@ function createTaskId() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
 }
 
-/**
- * Escapes user-provided text before placing it into HTML.
- */
+// Keeps user text safe inside HTML.
 function escapeHTML(value) {
   return String(value)
     .replaceAll("&", "&amp;")
@@ -224,9 +194,7 @@ function escapeHTML(value) {
     .replaceAll("'", "&#039;");
 }
 
-/**
- * Returns the tasks allowed by the active filter.
- */
+// Applies the selected filter.
 function getFilteredTasks() {
   if (currentFilter === "pending") {
     return tasks.filter((task) => !task.completed);
@@ -239,9 +207,7 @@ function getFilteredTasks() {
   return [...tasks];
 }
 
-/**
- * Sorts pending tasks by deadline first and completed tasks afterwards.
- */
+// Sorts unfinished tasks before finished ones.
 function sortTasks(taskList) {
   return [...taskList].sort((a, b) => {
     if (a.completed !== b.completed) {
@@ -259,9 +225,7 @@ function sortTasks(taskList) {
   });
 }
 
-/**
- * Creates the HTML representation of one task.
- */
+// Builds one task card.
 function createTaskHTML(task) {
   const status = getTaskStatus(task);
   const actionLabel = task.completed ? "Mark as pending" : "Mark as done";
@@ -318,9 +282,7 @@ function createTaskHTML(task) {
     `;
 }
 
-/**
- * Renders the complete task list and updates dashboard counters.
- */
+// Draws the list and updates the counters.
 function renderTasks() {
   const pending = tasks.filter((task) => !task.completed).length;
   const completed = tasks.filter((task) => task.completed).length;
@@ -352,9 +314,7 @@ function renderTasks() {
   }
 }
 
-/**
- * Clears validation errors from the form.
- */
+// Clears form errors.
 function clearErrors() {
   titleError.textContent = "";
   subjectError.textContent = "";
@@ -365,9 +325,7 @@ function clearErrors() {
   homeworkDueDate.classList.remove("invalid");
 }
 
-/**
- * Validates the form.
- */
+// Checks the form fields.
 function validateForm() {
   clearErrors();
 
@@ -405,9 +363,7 @@ function validateForm() {
   return isValid;
 }
 
-/**
- * Adds a new homework task.
- */
+// Adds a homework task.
 function addTask(event) {
   event.preventDefault();
 
@@ -433,9 +389,7 @@ function addTask(event) {
   showToast("Homework added successfully.");
 }
 
-/**
- * Toggles a task between pending and completed.
- */
+// Marks a task done or pending.
 function toggleTask(taskId) {
   const task = tasks.find((item) => item.id === taskId);
 
@@ -455,9 +409,7 @@ function toggleTask(taskId) {
   );
 }
 
-/**
- * Deletes a task after confirmation.
- */
+// Deletes a task after asking first.
 function deleteTask(taskId) {
   const taskIndex = tasks.findIndex((item) => item.id === taskId);
 
@@ -483,9 +435,7 @@ function deleteTask(taskId) {
   showToast("Homework deleted.");
 }
 
-/**
- * Handles task-card button actions using event delegation.
- */
+// Handles task buttons.
 function handleTaskAction(event) {
   const actionButton = event.target.closest("[data-action]");
 
@@ -511,9 +461,7 @@ function handleTaskAction(event) {
   }
 }
 
-/**
- * Changes the active task filter.
- */
+// Changes the task filter.
 function setFilter(filter) {
   currentFilter = filter;
 
@@ -527,9 +475,7 @@ function setFilter(filter) {
   renderTasks();
 }
 
-/**
- * Displays a temporary notification.
- */
+// Shows a short notification.
 function showToast(message) {
   window.clearTimeout(toastTimeout);
 
@@ -543,9 +489,7 @@ function showToast(message) {
   }, 2800);
 }
 
-/**
- * Sets the minimum selectable date to today.
- */
+// Stops users from picking past dates.
 function setMinimumDate() {
   const today = getToday();
 
@@ -556,10 +500,7 @@ function setMinimumDate() {
   homeworkDueDate.min = `${year}-${month}-${day}`;
 }
 
-/**
- * Re-renders periodically so deadline labels stay accurate
- * if the page remains open across midnight.
- */
+// Refreshes deadlines while the page stays open.
 function startDeadlineRefresh() {
   window.setInterval(() => {
     setMinimumDate();
@@ -614,7 +555,7 @@ loginButton.addEventListener("click", () => {
   }
 });
 
-// Cole no final do seu arquivo script.js
+// Lets visitors enter without an account.
 document.addEventListener("DOMContentLoaded", function () {
   const visitorButton = document.getElementById("visitorButton");
 
@@ -622,13 +563,13 @@ document.addEventListener("DOMContentLoaded", function () {
     visitorButton.addEventListener("click", function (e) {
       e.preventDefault();
 
-      // Esconde a tela de login
+      // Hide the login screen.
       document.getElementById("loginScreen").style.display = "none";
 
-      // Mostra a tela do projeto (substitua 'projectScreen' pelo ID real do seu painel)
+      // Show the project screen.
       document.getElementById("projectScreen").style.display = "block";
 
-      // Salva a sessão do visitante
+      // Save the visitor session.
       localStorage.setItem("userRole", "visitor");
     });
   }
