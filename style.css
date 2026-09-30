@@ -1,3 +1,4 @@
+/* Reusable colors, shadows, sizes, and animation settings. */
 :root {
   --color-background: #f5f7fb;
   --color-surface: #ffffff;
@@ -38,16 +39,19 @@
   --transition: all 0.3s ease;
 }
 
+/* Give every element predictable sizing and remove browser defaults. */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+/* Allow links and buttons to move smoothly to page positions. */
 html {
   scroll-behavior: smooth;
 }
 
+/* Set the page's main font, colors, and background. */
 body {
   min-height: 100vh;
   background: var(--color-background);
@@ -62,6 +66,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Make form controls use the same font as the page. */
 button,
 input {
   font: inherit;
@@ -71,18 +76,21 @@ button {
   cursor: pointer;
 }
 
+/* Show a clear outline when using the keyboard. */
 button:focus-visible,
 input:focus-visible {
   outline: 3px solid rgba(91, 92, 226, 0.2);
   outline-offset: 2px;
 }
 
+/* Keep the app footer at the bottom of short pages. */
 .app-shell {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
+/* Header and brand styles. */
 .app-header {
   background: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
@@ -164,6 +172,7 @@ input:focus-visible {
   color: var(--color-blue);
 }
 
+/* Center the main content and leave space around it. */
 .main-content {
   width: min(1180px, calc(100% - 32px));
   margin: 0 auto;
@@ -171,6 +180,7 @@ input:focus-visible {
   flex: 1;
 }
 
+/* Assignment form layout. */
 .form-section {
   margin-bottom: 44px;
   padding: 28px;
@@ -272,6 +282,7 @@ input:focus-visible {
   font-size: 0.7rem;
 }
 
+/* Main button and its hover states. */
 .primary-button {
   height: 48px;
   padding: 0 20px;
@@ -305,6 +316,7 @@ input:focus-visible {
   transform: translateY(0);
 }
 
+/* Filter buttons above the task list. */
 .tasks-heading {
   margin-bottom: 20px;
 }
@@ -338,12 +350,14 @@ input:focus-visible {
   box-shadow: var(--shadow-small);
 }
 
+/* Responsive grid for generated homework cards. */
 .tasks-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
 }
 
+/* One homework card and its colored status bar. */
 .task-card {
   position: relative;
   min-width: 0;
@@ -395,6 +409,7 @@ input:focus-visible {
   --status-border: var(--color-blue-border);
 }
 
+/* Task title, subject, date, and action areas. */
 .task-top {
   display: flex;
   align-items: flex-start;
@@ -513,6 +528,7 @@ input:focus-visible {
   transform: translateY(-1px);
 }
 
+/* Message shown when there are no matching tasks. */
 .empty-state {
   padding: 60px 24px;
   border: 1px dashed #d7dce5;
@@ -551,6 +567,7 @@ input:focus-visible {
   font-size: 0.78rem;
 }
 
+/* Footer and temporary notification styles. */
 .app-footer {
   padding: 24px 16px;
   border-top: 1px solid var(--color-border);
@@ -590,6 +607,7 @@ input:focus-visible {
   transform: translateY(0);
 }
 
+/* Use two columns on medium screens. */
 @media (max-width: 1050px) {
   .form-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -609,6 +627,7 @@ input:focus-visible {
   }
 }
 
+/* Stack the layout on smaller screens. */
 @media (max-width: 700px) {
   .header-content {
     align-items: flex-start;
@@ -666,6 +685,7 @@ input:focus-visible {
   }
 }
 
+/* Make the smallest layout easier to read. */
 @media (max-width: 450px) {
   .header-content,
   .main-content {
@@ -712,6 +732,7 @@ input:focus-visible {
   }
 }
 
+/* Respect users who prefer less animation. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -721,6 +742,7 @@ input:focus-visible {
   }
 }
 
+/* Login overlay and login form. */
 #loginScreen {
   position: fixed;
   inset: 0;
